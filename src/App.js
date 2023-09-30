@@ -6,12 +6,26 @@ import React from 'react';
 // import Clients from './components/Clients.js';
 import { Header, Hero, Browse, Arrived, Clients, Aside, Footer } from './components/index.js';
 function App() {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(function(){
+    (async function(){
+      const response = await fetch('https://bwacharity.fly.dev/items', {
+        headers:{
+          "Content-Type" : "application/json",
+          "accept" : "application/json",
+        }
+      });
+      const {nodes} = await response.json();
+      setItems(nodes);
+    })()
+  },[]);
   return (
     <div className="App">
       <Header />
       <Hero />
       <Browse />
-      <Arrived />
+      <Arrived items={items}/>
       <Clients />
       <Aside/>
       <Footer/>
