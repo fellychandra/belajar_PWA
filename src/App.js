@@ -4,31 +4,55 @@ import React from 'react';
 // import Browse from './components/Browse';
 // import Arrived from './components/Arrived.js';
 // import Clients from './components/Clients.js';
-import { Header, Hero, Browse, Arrived, Clients, Aside, Footer } from './components/index.js';
+import { Header, Hero, Browse, Arrived, Clients, Aside, Footer, Offline } from './components/index.js';
 function App() {
   const [items, setItems] = React.useState([]);
+  const [offlineStatus, setOfflineStatus] = React.useState(!navigator.onLine);
 
-  React.useEffect(function(){
-    (async function(){
+  function handleOfflineStatus() {
+    setOfflineStatus(!navigator.onLine);
+  }
+
+  React.useEffect(function () {
+    (async function () {
       const response = await fetch('https://bwacharity.fly.dev/items', {
-        headers:{
-          "Content-Type" : "application/json",
-          "accept" : "application/json",
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
         }
       });
-      const {nodes} = await response.json();
+      const { nodes } = await response.json();
       setItems(nodes);
-    })()
-  },[]);
+
+      if (!document.querySelector('script[src="/carousel.js"]')) {
+        const script = document.createElement("script");
+        script.src = "/carousel.js";
+        script.async = false;
+        document.body.appendChild(script);
+      }
+      
+    })();
+
+    handleOfflineStatus();
+    window.addEventListener('online', handleOfflineStatus);
+    window.addEventListener('offline', handleOfflineStatus);
+
+
+    return function () {
+      window.removeEventListener('online', handleOfflineStatus)
+      window.removeEventListener('offline', handleOfflineStatus)
+    }
+  }, [offlineStatus]);
   return (
     <div className="App">
+      {offlineStatus && <Offline />}
       <Header />
       <Hero />
       <Browse />
-      <Arrived items={items}/>
+      <Arrived items={items} />
       <Clients />
-      <Aside/>
-      <Footer/>
+      <Aside />
+      <Footer />
     </div>
   );
 }

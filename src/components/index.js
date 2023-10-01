@@ -5,5 +5,6 @@ import Arrived from './Arrived';
 import Clients from './Clients';
 import Aside from './Aside';
 import Footer from './Footer';
+import Offline from './Offline';
 
-export {Header, Hero, Browse, Arrived, Clients, Aside, Footer}
+export {Header, Hero, Browse, Arrived, Clients, Aside, Footer, Offline}
