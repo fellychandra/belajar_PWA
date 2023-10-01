@@ -5,9 +5,13 @@ import React from 'react';
 // import Arrived from './components/Arrived.js';
 // import Clients from './components/Clients.js';
 import { Header, Hero, Browse, Arrived, Clients, Aside, Footer, Offline } from './components/index.js';
+import Splash from './pages/Splash.js';
+
+
 function App() {
   const [items, setItems] = React.useState([]);
   const [offlineStatus, setOfflineStatus] = React.useState(!navigator.onLine);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   function handleOfflineStatus() {
     setOfflineStatus(!navigator.onLine);
@@ -30,13 +34,16 @@ function App() {
         script.async = false;
         document.body.appendChild(script);
       }
-      
+
     })();
 
     handleOfflineStatus();
     window.addEventListener('online', handleOfflineStatus);
     window.addEventListener('offline', handleOfflineStatus);
 
+    setTimeout(function () {
+      setIsLoading(false);
+    }, 1500)
 
     return function () {
       window.removeEventListener('online', handleOfflineStatus)
@@ -45,14 +52,19 @@ function App() {
   }, [offlineStatus]);
   return (
     <div className="App">
-      {offlineStatus && <Offline />}
-      <Header />
-      <Hero />
-      <Browse />
-      <Arrived items={items} />
-      <Clients />
-      <Aside />
-      <Footer />
+      {isLoading === true ? <Splash /> :
+        (
+          <>
+            {offlineStatus && <Offline />}
+            <Header />
+            <Hero />
+            <Browse />
+            <Arrived items={items} />
+            <Clients />
+            <Aside />
+            <Footer />
+          </>
+        )}
     </div>
   );
 }
