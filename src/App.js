@@ -64,7 +64,7 @@ function App() {
             <Aside />
             <Footer />
           </>
-        )}
+        )} 
     </div>
   );
 }
