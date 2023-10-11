@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import Arrived from './components/Arrived.js';
 // import Clients from './components/Clients.js';
 import { Header, Hero, Browse, Arrived, Clients, Aside, Footer, Offline } from './components/index.js';
-import { Splash, Profile } from './pages/index.js';
+import { Splash, Profile, Details } from './pages/index.js';
 
 
 function App() {
@@ -57,7 +57,7 @@ function App() {
         (
           <>
             {offlineStatus && <Offline />}
-            <Header />
+            <Header mode="light" />
             <Hero />
             <Browse />
             <Arrived items={items} />
@@ -76,6 +76,7 @@ export default function Router() {
       <Routes>
         <Route path='/' exact Component={App} />
         <Route path='/profile' exact Component={Profile} />
+        <Route path='/details/:id' Component={Details} />
       </Routes>
     </BrowserRouter>
 
