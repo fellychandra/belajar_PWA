@@ -1,11 +1,12 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import Header from './components/Header.js';
 // import Hero from './components/Hero'
 // import Browse from './components/Browse';
 // import Arrived from './components/Arrived.js';
 // import Clients from './components/Clients.js';
 import { Header, Hero, Browse, Arrived, Clients, Aside, Footer, Offline } from './components/index.js';
-import Splash from './pages/Splash.js';
+import { Splash, Profile } from './pages/index.js';
 
 
 function App() {
@@ -64,9 +65,19 @@ function App() {
             <Aside />
             <Footer />
           </>
-        )} 
+        )}
     </div>
   );
 }
 
-export default App;
+export default function Router() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' exact Component={App} />
+        <Route path='/profile' exact Component={Profile} />
+      </Routes>
+    </BrowserRouter>
+
+  )
+};

@@ -81,7 +81,7 @@ registerRoute(({ url }) => url.origin.includes("fly.dev"), new NetworkFirst({
   ]
 }));
 
-registerRoute(({ url }) => /\.(jpe?g|png)$/i.test(url.pathname) , new StaleWhileRevalidate({
+registerRoute(({ url }) => /\.(jpe?g|png)$/i.test(url.pathname), new StaleWhileRevalidate({
   cacheName: 'apiimage',
   plugins: [
     new ExpirationPlugin({
@@ -112,5 +112,15 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
+
+self.addEventListener('push', (event) => {
+  event.waitUntil(
+    self.registration.showNotification("LuxSpace", {
+      icon: './icon-120.png',
+      body: event.data.text()
+    })
+  )
+})
+
 
 // Any other custom service worker logic can go here.
